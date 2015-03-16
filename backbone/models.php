@@ -1,15 +1,25 @@
 <?php
 class Model {
-	function CharField(){
-		return 0;
+	function CharField($max_length=null){
+		return array(
+			'type' => 'varchar',
+			'length' => $max_length,
+			);
 	}
-	function IntegerField(){
-		return 0;
+	function IntegerField($max_length=null){
+		return array(
+			'type' => 'int',
+			'length' =>  $max_length,
+			);
 	}
 	function TextField(){
-		return 0;
+		return array(
+			'type' => 'mediumtext',
+			);
 	}
-	function DateField(){
-		return 0;
+	function DateField($auto_add_now=null){
+		return array(
+			'type' => 'timestamp',
+			);
 	}
 }

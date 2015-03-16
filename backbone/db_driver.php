@@ -5,15 +5,13 @@ $DB = new Database();
 
 class Database {
 	private $link;
-	private $db;
 
 	function __construct(){
 		$this->link = mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass']);
 		if (!$this->link) {
 		    die('Could not connect: ' . mysql_error());
 		}
-		echo 'Connected successfully';
-		$this->db = mysql_select_db($GLOBALS['db_name'], $this->link);
+		mysql_select_db($GLOBALS['db_name'], $this->link);
 	}
 
 	function close(){
@@ -21,8 +19,29 @@ class Database {
 		print "connection closed";
 	}
 
-	function createTable($tableName=null,$meta=null){
-		print "createTable";
+	function createTable($tableName=null,$model=null){
+		$objectVars = get_object_vars($model);
+		$query = "create table ". $tableName . "(";
+
+		$query .= $tableName . "_id int auto_increment,";
+
+		foreach($objectVars as $property => $string){
+			$meta = $model->$property;
+			var_dump($meta);
+			$query .=  $property . " " . $meta['type'];
+			if(isset($meta['length'])) $query .= "(".$meta['length'].")";
+			$query .= ", ";	
+		};
+		$query .= "primary key (". $tableName ."_id)";
+		$query .= ");";
+		
+		print "<p>" . $query . "</p>";
+
+		if(mysql_query($query,$this->link)) {
+			echo "Table MyGuests created successfully";
+		} else {
+			echo "<p>Error creating table: " . mysql_error($this->link) . "</p>";
+		}
 	}
 
 	function deleteTable($tableName=null){
