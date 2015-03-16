@@ -1,3 +1,3 @@
 <?php
-require 'settings.php';
-include 'urls.php';
+require_once 'settings.php';
+include_once 'urls.php';

@@ -4,21 +4,22 @@
 #####
 $GLOBALS['root_url'] = 'http://localhost/';
 $GLOBALS['assets_path'] = '/';
+$GOLBALS['BASEPATH'] = __DIR__;
 
 #####
 ## Database Settings
 #####
 $GLOBALS['db_host'] = 'localhost';
-$GLOBALS['db_name'] = 'localhost';
-$GLOBALS['db_user'] = 'localhost';
-$GLOBALS['db_pass'] = 'localhost';
-$GLOBALS['db_type'] = 'localhost';
+$GLOBALS['db_name'] = 'test';
+$GLOBALS['db_user'] = 'root';
+$GLOBALS['db_pass'] = '';
+$GLOBALS['db_type'] = 'mysql';
 
 #####
 ## Enabled Applications
 #####
 $GLOBALS['applications'] = [
-	'test',
+	'testApp',
 	];
 
 #####
