@@ -34,7 +34,7 @@ if($_SERVER['QUERY_STRING'] == 'flush'){
 	includeModels();
 
 	$result = array();
-
+	$DB->purgeDB();
 	foreach (get_declared_classes() as $class) {
 		if (is_subclass_of($class, 'Model'))
 		{

@@ -27,7 +27,6 @@ class Database {
 
 		foreach($objectVars as $property => $string){
 			$meta = $model->$property;
-			var_dump($meta);
 			$query .=  $property . " " . $meta['type'];
 			if(isset($meta['length'])) $query .= "(".$meta['length'].")";
 			$query .= ", ";	
@@ -36,9 +35,9 @@ class Database {
 		$query .= ");";
 		
 		print "<p>" . $query . "</p>";
-
+		
 		if(mysql_query($query,$this->link)) {
-			echo "Table MyGuests created successfully";
+			echo "Table " . $tableName . " created successfully";
 		} else {
 			echo "<p>Error creating table: " . mysql_error($this->link) . "</p>";
 		}
@@ -62,5 +61,26 @@ class Database {
 
 	function updateRecord($pk=null,$currentRecord=null,$updateRecord=null){
 		print "updateRecord";
+	}
+
+	function purgeDB(){
+		$query = "SELECT concat('DROP TABLE IF EXISTS ', table_name, ';')
+		FROM information_schema.tables
+		WHERE table_schema = '".$GLOBALS['db_name']."';";
+
+		$results = mysql_query($query,$this->link);
+		if(!$results) echo "<p>Error flushing db: " . mysql_error($this->link) . "</p>";
+		else{
+			$dropQuery = null;
+
+			while($row = mysql_fetch_assoc($results)){
+				$dropQuery .= array_values($row)[0];
+				print $dropQuery . "<br/>";
+				if(mysql_query(array_values($row)[0],$this->link))
+					print "Table dropped successfully.<br/>";
+				else
+					print "Error dropping table.<br/>";
+			}
+		}
 	}
 }
